@@ -7,19 +7,46 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var onlineUrl = 'https://nfcwrap.vercel.app/real-estate';
+      var vCard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'FN:Md. Ashraful Islam',
+        'ORG:Royce Developer LTD',
+        'TITLE:Senior Sales Executive',
+        'TEL;TYPE=WORK,VOICE:+8801234567890',
+        'TEL;TYPE=CELL,VOICE:+8801234567890',
+        'EMAIL:ashrafulislamdev01@gmail.com',
+        'ADR;TYPE=WORK:;;Road 01, Nikunja-2, Khilkhet, Dhaka;;;;',
+        'URL:https://ashrafulislam.vercel.app',
+        'PHOTO;VALUE=URI:https://nfcwrap.vercel.app/real-estate/profile.jpg',
+        'END:VCARD'
+      ].join('\r\n');
+
+      function triggerVCardDownload() {
+        try {
+          var blob = new Blob([vCard], { type: 'text/vcard' });
+          var link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = 'Md_Ashraful_Islam.vcf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch (e) {
+          document.getElementById('manual-download').style.display = 'block';
+        }
+      }
+
       if (navigator.onLine) {
         window.location.href = onlineUrl;
       } else {
-        // vCard data
-        var vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:Md. Ashraful Islam\nORG:Royce Developer LTD\nTITLE:Senior Sales Executive\nTEL;TYPE=WORK,VOICE:+8801234567890\nTEL;TYPE=CELL,VOICE:+8801234567890\nEMAIL:ashrafulislamdev01@gmail.com\nADR;TYPE=WORK:;;Road 01, Nikunja-2, Khilkhet, Dhaka;;;;\nURL:https://ashrafulislam.vercel.app\nPHOTO;VALUE=URI:https://nfcwrap.vercel.app/real-estate/profile.jpg\nEND:VCARD`;
-        var blob = new Blob([vCard], { type: 'text/vcard' });
-        var link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'Md_Ashraful_Islam.vcf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        triggerVCardDownload();
+        // Show fallback if download does not start
+        setTimeout(function () {
+          document.getElementById('manual-download').style.display = 'block';
+        }, 2000);
       }
+      // Attach manual download handler
+      window.manualVCardDownload = triggerVCardDownload;
     });
   </script>
 </head>
@@ -27,5 +54,9 @@
   <noscript>
     Please enable JavaScript to use this NFC card.
   </noscript>
+  <div id="manual-download" style="display:none;text-align:center;margin-top:2em;">
+    <p>If your contact did not open, <button onclick="manualVCardDownload()" style="padding:0.5em 1em;font-size:1em;">Download Contact</button></p>
+    <p>Or open this page when you are online.</p>
+  </div>
 </body>
 </html>
