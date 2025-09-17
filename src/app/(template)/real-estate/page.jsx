@@ -23,11 +23,38 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
+
+const user = {
+    name: "Sohanoor Rahman",
+    email: "sohun.me@gmail.com",
+    url: "https://sohan-me.vercel.app",
+    org: "Noob Tech",
+    title: "Founder",
+    note: "Digital Business Card - Created with NFC Tools"
+};
 
 const page = () => {
-return (
-    <div className='bg-[#c1dc18]'>
+        useEffect(() => {
+            if (typeof window === 'undefined') return;
+            if (navigator.onLine) {
+                window.location.href = 'http://localhost:3000/real-estate';
+                return;
+            }
+            if (!window.__vcfDownloaded) {
+                window.__vcfDownloaded = true;
+                const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:${user.name}\nEMAIL:${user.email}\nURL:${user.url}\nORG:${user.org}\nTITLE:${user.title}\nNOTE:${user.note}\nEND:VCARD`;
+                const blob = new Blob([vCard], { type: 'text/vcard' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = user.name.replace(/\s+/g, '_') + '.vcf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }, []);
+    return (
+        <div className='bg-[#c1dc18]'>
             <div className='max-w-md mx-auto'>
         <div className=''>
             <Image
