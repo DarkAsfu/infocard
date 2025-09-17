@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFC Redirect</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var onlineUrl = 'https://nfcwrap.vercel.app/real-estate';
+      if (navigator.onLine) {
+        window.location.href = onlineUrl;
+      } else {
+        // vCard data
+        var vCard = `BEGIN:VCARD\nVERSION:3.0\nFN:Md. Ashraful Islam\nORG:Royce Developer LTD\nTITLE:Senior Sales Executive\nTEL;TYPE=WORK,VOICE:+8801234567890\nTEL;TYPE=CELL,VOICE:+8801234567890\nEMAIL:ashrafulislamdev01@gmail.com\nADR;TYPE=WORK:;;Road 01, Nikunja-2, Khilkhet, Dhaka;;;;\nURL:https://ashrafulislam.vercel.app\nPHOTO;VALUE=URI:https://nfcwrap.vercel.app/real-estate/profile.jpg\nEND:VCARD`;
+        var blob = new Blob([vCard], { type: 'text/vcard' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'Md_Ashraful_Islam.vcf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
+  </script>
+</head>
+<body>
+  <noscript>
+    Please enable JavaScript to use this NFC card.
+  </noscript>
+</body>
+</html>
