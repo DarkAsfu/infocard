@@ -1,3 +1,19 @@
+  <div style="background:#f8f8c6;padding:1em 1.5em;margin:1.5em auto 1em auto;max-width:400px;border-radius:10px;text-align:center;font-size:1.05em;box-shadow:0 2px 8px #0001;">
+    <strong>For Best Experience:</strong><br>
+    <ul style="text-align:left;display:inline-block;margin:0.5em 0 0 0;padding-left:1.2em;">
+      <li>Tap this card while <b>online</b> to access all features and save it for offline use.</li>
+      <li>If you are <b>offline</b>, you can still view and save the contact information below.</li>
+      <li>For instant contact saving, use the “Download Contact” button.</li>
+    </ul>
+  </div>
+  <script>
+    // Register service worker for offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw-nfc.js').catch(function(e){console.log('SW registration failed:', e);});
+      });
+    }
+  </script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,6 +73,19 @@
   <div id="manual-download" style="display:none;text-align:center;margin-top:2em;">
     <p>If your contact did not open, <button onclick="manualVCardDownload()" style="padding:0.5em 1em;font-size:1em;">Download Contact</button></p>
     <p>Or open this page when you are online.</p>
+  </div>
+  <div id="contact-info" style="text-align:center;margin-top:2em;">
+    <h2>Contact Information</h2>
+    <img src="/real-estate/profile.jpg" alt="Profile Photo" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:1em;" onerror="this.style.display='none'" />
+    <p><strong>Name:</strong> Md. Ashraful Islam</p>
+    <p><strong>Organization:</strong> Royce Developer LTD</p>
+    <p><strong>Title:</strong> Senior Sales Executive</p>
+    <p><strong>Phone:</strong> +8801234567890</p>
+    <p><strong>Email:</strong> <a href="mailto:ashrafulislamdev01@gmail.com">ashrafulislamdev01@gmail.com</a></p>
+    <p><strong>Address:</strong> Road 01, Nikunja-2, Khilkhet, Dhaka</p>
+    <p><strong>Website:</strong> <a href="https://ashrafulislam.vercel.app">ashrafulislam.vercel.app</a></p>
+    <button onclick="manualVCardDownload()" style="padding:0.5em 1em;font-size:1em;margin-top:1em;">Download Contact (.vcf)</button>
+    <p style="margin-top:1em;color:#888;font-size:0.9em;">Tip: Save this page to your home screen for offline access.</p>
   </div>
 </body>
 </html>
